@@ -6,7 +6,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
@@ -29,11 +31,16 @@ public class CustomInfoMapa implements GoogleMap.InfoWindowAdapter {
 
     @Override
     public View getInfoWindow(Marker marker) {
-        System.out.println(marker.getSnippet());
-        Locales local = mDataSet.get(Integer.parseInt(marker.getSnippet()));
+        Locales usar = null;
+        for (Locales local : mDataSet) {
+            if (local.getId() == Integer.parseInt(marker.getSnippet())) {
+                usar = local;
+                break;
+            }
+        }
 
         TextView titulo = (TextView) view.findViewById(R.id.tv_titulo_info);
-        titulo.setText(local.getNombre());
+        titulo.setText(usar.getNombre());
 
         return view;
     }
